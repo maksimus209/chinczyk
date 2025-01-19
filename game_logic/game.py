@@ -9,6 +9,7 @@ class Game:
         self.players = [Player(color) for color in player_colors]
         self.current_player_index = 0  # Gracz, który ma aktualnie turę
         self.dice_value = 0  # Wynik rzutu kostką
+        self.turn_number = 1  # Numer tury
         self.board.players = self.players
 
     def roll_dice(self):
@@ -19,6 +20,8 @@ class Game:
     def next_player(self):
         """Przejście do następnego gracza."""
         self.current_player_index = (self.current_player_index + 1) % len(self.players)
+        if self.current_player_index == 0:  # Zwiększ numer tury, gdy wracamy do pierwszego gracza
+            self.turn_number += 1
 
     def play_turn(self, token_index):
         """Wykonanie tury gracza."""
@@ -43,11 +46,21 @@ class Game:
         self.next_player()
         return f"Gracz {player.color}: {result}"
 
+    def choose_computer_move(self, player):
+        """Prosta logika AI dla ruchu komputera."""
+        for i, token in enumerate(player.tokens):
+            if token == -1 and self.dice_value == 6:  # Wyprowadzenie pionka
+                return i
+            elif token >= 0:  # Wybór pionka na planszy
+                return i
+        return 0  # Domyślnie wybierz pierwszy pionek
+
     def get_game_state(self):
         """Pobierz aktualny stan gry."""
         return {
             "current_player": self.players[self.current_player_index].color,
             "dice_value": self.dice_value,
+            "turn_number": self.turn_number,  # Dodaj numer tury do stanu gry
             "players": [
                 {
                     "color": player.color,

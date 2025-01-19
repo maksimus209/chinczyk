@@ -8,12 +8,18 @@
 </head>
 <body>
     <h1>Witaj w grze Chińczyk!</h1>
-    <form action="/game" method="get">
+    <form action="/game" method="post">
         <label for="mode">Wybierz tryb gry:</label>
         <select id="mode" name="mode">
             <option value="hotseat">Hot-seat (gra na jednym komputerze)</option>
-            <option value="computer">1 na 1 z komputerem</option>
+            <option value="computer" selected>1 na 1 z komputerem</option>
         </select>
+        <label for="players">Wybierz liczbę graczy:</label>
+            <select id="players" name="players">
+                <option value="2">2 graczy</option>
+                <option value="3">3 graczy</option>
+                <option value="4" selected>4 graczy</option> <!-- Domyślnie 4 -->
+            </select>
         <button type="submit">Rozpocznij grę</button>
     </form>
 </body>

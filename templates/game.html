@@ -8,6 +8,7 @@
 </head>
 <body>
     <h1>Gra Chińczyk</h1>
+    <p>Numer tury: <span id="turn-number">{{ state['turn_number'] }}</span></p>
     <p>Aktualny gracz: <span id="current-player">{{ state['current_player'] }}</span></p>
     <p>Wyrzucona liczba oczek: <span id="dice-value">{{ state['dice_value'] }}</span></p>
 
@@ -42,37 +43,14 @@
 
     <!-- Domki -->
 <div class="homes">
-    <!-- Domek czerwony -->
-    <div class="home-section red">
-        <div class="home red"></div>
-        <div class="home red"></div>
-        <div class="home red"></div>
-        <div class="home red"></div>
-    </div>
-
-    <!-- Domek niebieski -->
-    <div class="home-section blue">
-        <div class="home blue"></div>
-        <div class="home blue"></div>
-        <div class="home blue"></div>
-        <div class="home blue"></div>
-    </div>
-
-    <!-- Domek zielony -->
-    <div class="home-section green">
-        <div class="home green"></div>
-        <div class="home green"></div>
-        <div class="home green"></div>
-        <div class="home green"></div>
-    </div>
-
-    <!-- Domek żółty -->
-    <div class="home-section yellow">
-        <div class="home yellow"></div>
-        <div class="home yellow"></div>
-        <div class="home yellow"></div>
-        <div class="home yellow"></div>
-    </div>
+    {% for player in state['players'] %}
+        <div class="home-section {{ player['color'] }}">
+            <div class="home {{ player['color'] }}"></div>
+            <div class="home {{ player['color'] }}"></div>
+            <div class="home {{ player['color'] }}"></div>
+            <div class="home {{ player['color'] }}"></div>
+        </div>
+    {% endfor %}
 </div>
 
 </body>
