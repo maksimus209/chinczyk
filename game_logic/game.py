@@ -60,26 +60,38 @@ class Game:
 
 
 if __name__ == "__main__":
-    print("\n--- Test gry dla czterech graczy ---")
-    game = Game(["red", "blue", "green", "yellow"])
+    print("\n--- Test dwóch czerwonych pionków wprowadzanych do domku ---")
+    game = Game(["red", "blue"])
 
-    # Wyprowadzenie pionków przez wszystkich graczy
-    game.players[0].tokens[0] = -1  # Red
-    game.players[1].tokens[0] = -1  # Blue
-    game.players[2].tokens[0] = -1  # Green
-    game.players[3].tokens[0] = -1  # Yellow
+    # Ustawienie pozycji: pierwszy pionek czerwony na pozycji 39, drugi na pozycji 37
+    game.players[0].tokens[0] = 39  # Pionek 0 (czerwony) na polu 39
+    game.players[0].tokens[1] = 37  # Pionek 1 (czerwony) na polu 37
 
-    # Symulacja kilku rund
-    for turn in range(1, 10):
-        print(f"Tura {turn}: Gracz {game.players[game.current_player_index].color}")
-        game.dice_value = 6 if turn <= 4 else (turn % 6 + 1)  # 6 dla początkowych tur, później zmienne wartości
-        token_index = 0
-        result = game.play_turn(token_index)
-        print(result)
-        print("Stan gry:", game.get_game_state())
+    # Symulacja wprowadzenia pierwszego pionka (potrzebuje wyrzucić 4)
+    game.dice_value = 4
+    result = game.play_turn(0)  # Ruch pionka 0 (czerwony)
+    print(result)
+    print("Stan gry po ruchu pierwszego pionka:", game.get_game_state())
 
-    # Zakończenie testu
-    print("Test gry dla czterech graczy zakończony.")
+    # Symulacja wprowadzenia drugiego pionka (potrzebuje wyrzucić 2, bo jest na pozycji 37)
+    game.dice_value = 2
+    result = game.play_turn(1)  # Ruch pionka 1 (czerwony)
+    print(result)
+    print("Stan gry po ruchu drugiego pionka:", game.get_game_state())
+
+    # Próba ponownego ruchu (dla potwierdzenia, że pionki są w domku i nie mogą już się poruszać)
+    game.dice_value = 3
+    result = game.play_turn(0)  # Próba ruchu dla pierwszego pionka
+    print(result)
+
+    game.dice_value = 3
+    result = game.play_turn(1)  # Próba ruchu dla drugiego pionka
+    print(result)
+
+
+
+
+
 
 
 

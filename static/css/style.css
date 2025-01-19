@@ -8,7 +8,12 @@ body {
 
 h1 {
     color: #333;
-    margin-top: 50px;
+    margin-top: 20px;
+}
+
+p {
+    margin: 10px;
+    font-size: 16px;
 }
 
 button {
@@ -29,4 +34,138 @@ button:hover {
     margin-top: 20px;
     font-size: 18px;
     color: #333;
+}
+
+/* Stylizacja planszy */
+.board {
+    display: grid;
+    grid-template-columns: repeat(10, 50px);
+    grid-template-rows: repeat(4, 50px);
+    gap: 2px;
+    margin: 20px auto;
+    max-width: 520px;
+    background-color: #ddd;
+    border: 2px solid #333;
+}
+
+.cell {
+    width: 50px;
+    height: 50px;
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+/* Pionki */
+.token {
+    width: 40px; /* Dopasowanie do wnętrza bazy */
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: bold;
+    color: white;
+}
+
+/* Kolory pionków */
+.token.red {
+    background-color: #ff4d4d;
+}
+
+.token.blue {
+    background-color: #4d79ff;
+}
+
+.token.green {
+    background-color: #4dff88;
+}
+
+.token.yellow {
+    background-color: #ffe04d;
+}
+
+#baza {
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* Odstęp między bazami */
+    margin: 20px auto;
+    flex-wrap: wrap; /* Pozwala na zawijanie wierszy w razie braku miejsca */
+}
+
+.base {
+    width: 110px; /* Dopasowane do rozmiaru domków */
+    height: 110px; /* Dopasowane do rozmiaru domków */
+    margin: 10px; /* Zachowanie odstępu między bazami */
+    display: grid; /* Umożliwia wyrównanie pionków w bazie */
+    grid-template-columns: repeat(2, 50px); /* Dwa pionki w rzędzie */
+    grid-gap: 5px; /* Odstęp między pionkami */
+    align-items: center;
+    justify-content: center;
+    border: 2px dashed; /* Przerywana linia */
+    background-color: #f9f9f9; /* Kolor tła bazy */
+}
+
+/* Kolor przerywanej linii dla poszczególnych baz */
+.base.red {
+    border-color: red;
+}
+
+.base.blue {
+    border-color: blue;
+}
+
+.base.green {
+    border-color: green;
+}
+
+.base.yellow {
+    border-color: yellow;
+}
+
+/* Domki */
+.home {
+    width: 50px;
+    height: 50px;
+    background-color: #cccccc;
+    border: 2px solid black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.home.red {
+    background-color: #ff9999;
+}
+
+.home.blue {
+    background-color: #9999ff;
+}
+
+.home.green {
+    background-color: #99ff99;
+}
+
+.home.yellow {
+    background-color: #ffff99;
+}
+
+/* Stylizacja sekcji domków */
+.homes {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 20px auto;
+}
+
+.home-section {
+    display: grid;
+    grid-template-columns: repeat(2, 50px);
+    grid-gap: 5px;
+    justify-content: center;
 }

@@ -11,12 +11,69 @@
     <p>Aktualny gracz: <span id="current-player">{{ state['current_player'] }}</span></p>
     <p>Wyrzucona liczba oczek: <span id="dice-value">{{ state['dice_value'] }}</span></p>
 
-    <div id="controls">
-        <button id="roll-dice">Rzuć kostką</button>
-        <button id="move-token" disabled>Przesuń pionek</button>
+    <div id="baza">
+        <!-- Wyświetlenie baz graczy -->
+        {% for player in state['players'] %}
+            <div class="base {{ player['color'] }}">
+                {% for token in player['tokens'] %}
+                    {% if token == -1 %}
+                        <span class="token {{ player['color'] }}">{{ player['color'][0] }}</span>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endfor %}
     </div>
 
-    <p id="message"></p>
+    <div id="board" class="board">
+        <!-- Generowanie planszy (40 pól) -->
+        {% for i in range(40) %}
+            <div class="cell" id="cell-{{ i }}">
+                <!-- Wyświetlenie pionków na planszy -->
+                {% for player in state['players'] %}
+                    {% for token in player['tokens'] %}
+                        {% if token == i %}
+                            <span class="token {{ player['color'] }}">{{ player['color'][0] }}</span>
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- Domki -->
+<div class="homes">
+    <!-- Domek czerwony -->
+    <div class="home-section red">
+        <div class="home red"></div>
+        <div class="home red"></div>
+        <div class="home red"></div>
+        <div class="home red"></div>
+    </div>
+
+    <!-- Domek niebieski -->
+    <div class="home-section blue">
+        <div class="home blue"></div>
+        <div class="home blue"></div>
+        <div class="home blue"></div>
+        <div class="home blue"></div>
+    </div>
+
+    <!-- Domek zielony -->
+    <div class="home-section green">
+        <div class="home green"></div>
+        <div class="home green"></div>
+        <div class="home green"></div>
+        <div class="home green"></div>
+    </div>
+
+    <!-- Domek żółty -->
+    <div class="home-section yellow">
+        <div class="home yellow"></div>
+        <div class="home yellow"></div>
+        <div class="home yellow"></div>
+        <div class="home yellow"></div>
+    </div>
+</div>
 
 </body>
 </html>
