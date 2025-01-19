@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chińczyk</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <h1>Gra Chińczyk</h1>
+    <p>Aktualny gracz: <span id="current-player">{{ state['current_player'] }}</span></p>
+    <p>Wyrzucona liczba oczek: <span id="dice-value">{{ state['dice_value'] }}</span></p>
+
+    <div id="controls">
+        <button id="roll-dice">Rzuć kostką</button>
+        <button id="move-token" disabled>Przesuń pionek</button>
+    </div>
+
+    <p id="message"></p>
+
+</body>
+</html>

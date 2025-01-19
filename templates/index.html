@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chińczyk - Strona Startowa</title>
+    <link rel="stylesheet" href="/static/css/style.css"> <!-- Stylizacja (opcjonalne) -->
+</head>
+<body>
+    <h1>Witaj w grze Chińczyk!</h1>
+    <form action="/game" method="post">
+        <label for="mode">Wybierz tryb gry:</label>
+        <select id="mode" name="mode">
+            <option value="hotseat">Hot-seat (gra na jednym komputerze)</option>
+            <option value="computer">1 na 1 z komputerem</option>
+        </select>
+        <button type="submit">Rozpocznij grę</button>
+    </form>
+</body>
+</html>
