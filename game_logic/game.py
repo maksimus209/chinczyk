@@ -24,9 +24,14 @@ class Game:
             self.turn_number += 1
 
     def play_turn(self, token_index):
-        """Wykonanie tury gracza."""
+        """
+        Wykonanie tury gracza:
+        Teraz NIE rzucamy kostką w tej metodzie,
+        tylko używamy self.dice_value ustawionego przez roll_dice().
+        """
         player = self.players[self.current_player_index]
-        dice = self.roll_dice()
+        dice = self.dice_value  # <-- korzystamy z istniejącej wartości kostki
+
         result = player.move_token(token_index, dice, self.board)
 
         # Sprawdź, czy gracz wygrał

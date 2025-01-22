@@ -15,30 +15,48 @@
     <div id="baza">
         <!-- Wyświetlenie baz graczy -->
         {% for player in state['players'] %}
-            <div class="base {{ player['color'] }}">
-                {% for token in player['tokens'] %}
-                    {% if token == -1 %}
-                        <span class="token {{ player['color'] }}">{{ player['color'][0] }}</span>
-                    {% endif %}
-                {% endfor %}
-            </div>
-        {% endfor %}
+  <div class="base {{ player['color'] }}">
+      {% for token in player['tokens'] %}
+          {% set token_index = loop.index0 %}
+
+          {% if token == -1 %}
+              <span
+                  class="token {{ player['color'] }}"
+                  data-player="{{ player['color'] }}"
+                  data-token-index="{{ token_index }}"
+              >
+                  {{ player['color'][0] }}
+              </span>
+          {% endif %}
+      {% endfor %}
+  </div>
+{% endfor %}
+
     </div>
 
     <div id="board" class="board">
         <!-- Generowanie planszy (40 pól) -->
         {% for i in range(40) %}
-            <div class="cell" id="cell-{{ i }}">
-                <!-- Wyświetlenie pionków na planszy -->
-                {% for player in state['players'] %}
-                    {% for token in player['tokens'] %}
-                        {% if token == i %}
-                            <span class="token {{ player['color'] }}">{{ player['color'][0] }}</span>
-                        {% endif %}
-                    {% endfor %}
-                {% endfor %}
-            </div>
+  <div class="cell" id="cell-{{ i }}">
+    {% for player in state['players'] %}
+        {% for token in player['tokens'] %}
+            {% set token_index = loop.index0 %}
+
+            {% if token == i %}
+                <span
+                    class="token {{ player['color'] }}"
+                    data-player="{{ player['color'] }}"
+                    data-token-index="{{ token_index }}"
+                >
+                    {{ player['color'][0] }}
+                </span>
+            {% endif %}
         {% endfor %}
+    {% endfor %}
+</div>
+
+{% endfor %}
+
     </div>
 
     <!-- Domki -->
@@ -53,5 +71,9 @@
     {% endfor %}
 </div>
 
+<button id="roll-dice-btn">Rzuć kostką</button>
+<p id="message"></p> <!-- Tutaj będą pojawiać się komunikaty gry (zbijanie, brak ruchu, itp.) -->
+
+<script src="{{ url_for('static', filename='js/game.js') }}"></script>
 </body>
 </html>
