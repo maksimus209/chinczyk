@@ -72,7 +72,10 @@
 </div>
 
 <button id="roll-dice-btn">Rzuć kostką</button>
-<p id="message"></p> <!-- Tutaj będą pojawiać się komunikaty gry (zbijanie, brak ruchu, itp.) -->
+    <!-- Nad lub pod przyciskiem "Rzuć kostką" -->
+<button id="move-token-btn" disabled>Przesuń pionek</button>
+
+<p id="message"></p>
 
 <script src="{{ url_for('static', filename='js/game.js') }}"></script>
 </body>

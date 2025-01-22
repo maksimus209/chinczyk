@@ -8,22 +8,20 @@ game = Game(["red", "blue", "green", "yellow"])
 
 
 @app.route("/roll_dice", methods=["POST"])
-def roll_dice():
+def roll_dice_endpoint():
     global game
     if game is None:
         return jsonify({"error": "Gra nie jest zainicjalizowana."}), 400
 
-    # Rzucamy kostką
-    dice_value = game.roll_dice()
-
-    # Pobieramy aktualny stan gry
+    dice_value, message = game.roll_dice()
     state = game.get_game_state()
 
-    # Zwracamy wynik w formacie JSON
     return jsonify({
         "dice_value": dice_value,
+        "message": message,  # <-- Dodajemy komunikat
         "state": state
     })
+
 
 @app.route("/move", methods=["POST"])
 def move_token():
