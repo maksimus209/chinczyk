@@ -32,6 +32,23 @@ async function handleRollDice() {
     // Aktualizujemy stan i widok planszy
     updateBoard(data.state);
 
+    // Jeśli data.dice_value < 6 i gracz ma pionek na planszy...
+    //   -> zablokuj rollDiceBtn, żeby wymusić ruch pionkiem:
+    if (data.dice_value < 6) {
+      // Sprawdzamy, czy na pewno gracz ma pionek w polu [0..39],
+      // bo jeśli nie – to i tak nic nie zrobi.
+      const currentPlayer = data.state.players.find(
+        p => p.color === data.state.current_player
+      );
+      const hasTokenOnBoard = currentPlayer.tokens.some(t => t >= 0 && t < 40);
+
+      if (hasTokenOnBoard) {
+        // Zablokuj przycisk
+        const rollDiceBtn = document.getElementById("roll-dice-btn");
+        rollDiceBtn.disabled = true;
+      }
+    }
+
   } catch (error) {
     console.error("Błąd przy rzucaniu kostką:", error);
   }
@@ -45,9 +62,17 @@ async function handleTokenClick(event) {
   const tokenElement = event.currentTarget;
   const playerColor = tokenElement.getAttribute("data-player");
   const tokenIndex = tokenElement.getAttribute("data-token-index");
+  const tokenPos = parseInt(tokenElement.getAttribute("data-position"), 10);
+  const diceValue = parseInt(document.getElementById("dice-value").textContent, 10);
 
   // Aktualny gracz (np. "red", "blue" itp.)
   const currentPlayerColor = document.getElementById("current-player").textContent;
+
+  // Jeśli pionek jest w bazie (-1) i diceValue < 6 -> nie można wyprowadzić
+  if (tokenPos === -1 && diceValue < 6) {
+    showTemporaryMessage("Nie możesz wyprowadzić tego pionka, proszę wykonać ruch pionkiem na planszy.");
+    return;
+  }
 
   // Blokada pionków innego gracza
   if (playerColor !== currentPlayerColor) {
@@ -100,6 +125,24 @@ async function handleMoveToken() {
       document.getElementById("message").textContent = `Koniec gry! Wygrał gracz: ${data.winner}`;
       document.getElementById("roll-dice-btn").disabled = true;
       document.getElementById("move-token-btn").disabled = true;
+
+      // Pokazujemy przyciski do nowej gry / menu
+      const endGameActions = document.getElementById("end-game-actions");
+      if (endGameActions) {
+        endGameActions.style.display = "block";
+      }
+    }
+    else{
+      // Sprawdź, czy dice_value == 6, bo wtedy w tej samej turze
+      // można dalej rzucać kostką
+      if (data.state.dice_value === 6) {
+        // Odblokuj rzut kostką
+        document.getElementById("roll-dice-btn").disabled = false;
+      } else {
+        // Jeżeli tura się skończyła i gracz jest nowy,
+        // to nowy gracz też powinien mieć rollDiceBtn odblokowane
+        document.getElementById("roll-dice-btn").disabled = false;
+      }
     }
 
   } catch (error) {
@@ -179,6 +222,7 @@ function updateBoard(state) {
               class="token ${player.color}"
               data-player="${player.color}"
               data-token-index="${tokenIndex}"
+              data-position="-1"
             >
               ${player.color[0]}
             </span>
@@ -193,6 +237,7 @@ function updateBoard(state) {
               class="token ${player.color}"
               data-player="${player.color}"
               data-token-index="${tokenIndex}"
+              data-position="$(tokenPos)"
             >
               ${player.color[0]}
             </span>
@@ -255,4 +300,29 @@ document.addEventListener("DOMContentLoaded", () => {
   if (moveBtn) {
     moveBtn.addEventListener("click", handleMoveToken);
   }
+
+  const newGameBtn = document.getElementById("btn-new-game");
+  if (newGameBtn) {
+    newGameBtn.addEventListener("click", handleNewGame);
+  }
 });
+
+rollDiceBtn.addEventListener("click", (event) => {
+  if (rollDiceBtn.disabled) {
+    showTemporaryMessage("Nie możesz rzucić kostką, najpierw wykonaj ruch pionkiem!");
+    // Zatrzymaj event
+    event.preventDefault();
+    return;
+  }
+  handleRollDice();
+});
+
+function handleNewGame() {
+  // Najprościej: przeładuj stronę /game z POST, żeby zainicjalizować nową grę
+  // (lub jeśli masz inną ścieżkę /new_game, możesz tam przekierować)
+  window.location.href = "/"; // np. wróć na stronę główną, a stamtąd user wybierze nową grę
+  // lub:
+  // window.location.reload();
+}
+
+

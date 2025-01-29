@@ -13,6 +13,7 @@ class Game:
         self.board.players = self.players
         self.rolls_left = 0  # <-- NOWE: liczba rzutów pozostałych w tej turze
 
+
     def roll_dice(self):
         """
         Rzut kostką z uwzględnieniem:
@@ -26,13 +27,13 @@ class Game:
 
         # Jeśli zaczyna się nowa tura (rolls_left == 0),
         # ustalamy, ile rzutów przysługuje
-        if self.rolls_left == 0:
+        if current_player.rolls_left == 0:
             if all_in_base:
                 # Gracz ma trzy próby na wyrzucenie 6
-                self.rolls_left = 3
+                current_player.rolls_left = 3
             else:
                 # Gracz ma 1 rzut, dopóki nie wypadnie 6 (obsłużymy to w play_turn)
-                self.rolls_left = 1
+                current_player.rolls_left = 1
 
         # Wykonujemy rzut
         self.dice_value = random.randint(1, 6)
@@ -40,8 +41,8 @@ class Game:
 
         # 1. Gdy wszystkie pionki są w bazie i nie wypadło 6
         if all_in_base and self.dice_value != 6:
-            self.rolls_left -= 1  # zużywamy 1 rzut
-            if self.rolls_left > 0:
+            current_player.rolls_left -= 1  # zużywamy 1 rzut
+            if current_player.rolls_left > 0:
                 # Są jeszcze próby
                 message = "Nie możesz wyprowadzić pionka z domu, rzuć jeszcze raz."
             else:
@@ -51,7 +52,7 @@ class Game:
                     "Nie możesz wyprowadzić pionka z domu, kolejka przechodzi do "
                     f"następnego gracza: {self.players[self.current_player_index].color}"
                 )
-                self.rolls_left = 0
+                self.players[self.current_player_index].rolls_left = 0
 
         # 2. Obsługa wypadnięcia 6
         elif self.dice_value == 6:
@@ -74,6 +75,10 @@ class Game:
         return self.dice_value, message
 
     def next_player(self):
+        # stary gracz
+        old_player = self.players[self.current_player_index]
+        old_player.rolls_left = 0  # starą turę kończymy
+
         """Przejście do następnego gracza."""
         self.current_player_index = (self.current_player_index + 1) % len(self.players)
         if self.current_player_index == 0:  # Zwiększ numer tury, gdy wracamy do pierwszego gracza

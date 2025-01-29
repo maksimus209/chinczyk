@@ -12,6 +12,11 @@
     <p>Aktualny gracz: <span id="current-player">{{ state['current_player'] }}</span></p>
     <p>Wyrzucona liczba oczek: <span id="dice-value">{{ state['dice_value'] }}</span></p>
 
+    <div id="end-game-actions" style="display: none; margin-top: 20px;">
+        <button id="btn-new-game">Powrót do menu</button>
+    </div>
+
+
     <div id="baza">
         <!-- Wyświetlenie baz graczy -->
         {% for player in state['players'] %}

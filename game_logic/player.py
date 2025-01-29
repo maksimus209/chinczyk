@@ -4,6 +4,7 @@ class Player:
         self.color = color
         self.tokens = [-1, -1, -1, -1]  # Pionki (-1 oznacza, że są w schowku)
         self.finished_tokens = 0  # Liczba pionków w domku
+        self.rolls_left = 0  # Na starcie 0, ustalimy przy pierwszym rzucie
 
     def move_token(self, token_index, steps, board):
         """Przesuń pionek o zadaną liczbę pól."""
@@ -47,23 +48,35 @@ class Player:
         new_position = board.move(current_position, steps)
         print(f"[DEBUG] Gracz {self.color} – Pionek {token_index}: nowa pozycja {new_position}.")
 
-        # Sprawdź, czy na nowej pozycji jest pionek innego gracza
+        # Sprawdź, czy na nowej pozycji są pionki innego gracza (lub wielu)
         for opponent in board.players:
-            if opponent.color != self.color:  # Sprawdzanie przeciwników
+            if opponent.color != self.color:  # Sprawdzanie tylko przeciwników
+                zapped_count = 0
                 for i, opponent_token in enumerate(opponent.tokens):
                     print(
                         f"[DEBUG] Sprawdzanie pionka gracza {opponent.color}: pionek {i} na pozycji {opponent_token}.")
-                    if opponent_token == new_position:  # Jeśli na tej samej pozycji co obecny pionek
-                        opponent.tokens[i] = -1  # Cofnij pionek przeciwnika do schowka
-                        print(
-                            f"[DEBUG] Gracz {self.color} – Pionek {token_index} zbił pionek gracza {opponent.color} na polu {new_position}.")
-                        self.tokens[token_index] = new_position
-                        return f"Pionek {token_index} zbił pionek gracza {opponent.color}!"
+                    if opponent_token == new_position:
+                        # Cofnij pionek przeciwnika do schowka
+                        opponent.tokens[i] = -1
+                        zapped_count += 1
 
-        # Aktualizacja pozycji pionka
+                if zapped_count > 0:
+                    # Jeśli zbijamy wszystkie pionki przeciwnika, dopiero teraz
+                    # ustawiamy swój pionek na to pole
+                    self.tokens[token_index] = new_position
+
+                    print(
+                        f"[DEBUG] Gracz {self.color} – Pionek {token_index} zbił {zapped_count} pionków gracza {opponent.color} na polu {new_position}.")
+
+                    # Komunikat zależny od liczby zbitych pionków
+                    if zapped_count == 1:
+                        return f"Pionek {token_index} zbił pionek gracza {opponent.color}!"
+                    else:
+                        return f"Pionek {token_index} zbił {zapped_count} pionki gracza {opponent.color}!"
+
+        # Jeśli nie zbiliśmy żadnego pionka, normalnie aktualizujemy pozycję
         self.tokens[token_index] = new_position
         return f"Pionek {token_index} przesunął się na pole {new_position}"
-
 
     def is_finished(self):
         """Sprawdź, czy gracz zakończył grę."""

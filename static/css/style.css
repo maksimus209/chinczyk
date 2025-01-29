@@ -97,6 +97,35 @@ button:hover {
     flex-wrap: wrap; /* Pozwala na zawijanie wierszy w razie braku miejsca */
 }
 
+/* Kolorowe pola startowe */
+#cell-0 {
+    background-color: rgba(255, 0, 0, 0.3); /* czerwony, półprzezroczysty */
+}
+#cell-10 {
+    background-color: rgba(0, 0, 255, 0.3); /* niebieski, półprzezroczysty */
+}
+#cell-20 {
+    background-color: rgba(0, 255, 0, 0.3); /* zielony, półprzezroczysty */
+}
+#cell-30 {
+    background-color: rgba(255, 255, 0, 0.3); /* żółty, półprzezroczysty */
+}
+
+/* Kolorowe pola startowe */
+#cell-39 {
+    background-color: rgba(255, 0, 0, 0.3); /* czerwony, półprzezroczysty */
+}
+#cell-9 {
+    background-color: rgba(0, 0, 255, 0.3); /* niebieski, półprzezroczysty */
+}
+#cell-19 {
+    background-color: rgba(0, 255, 0, 0.3); /* zielony, półprzezroczysty */
+}
+#cell-29 {
+    background-color: rgba(255, 255, 0, 0.3); /* żółty, półprzezroczysty */
+}
+
+
 .base {
     width: 110px; /* Dopasowane do rozmiaru domków */
     height: 110px; /* Dopasowane do rozmiaru domków */
