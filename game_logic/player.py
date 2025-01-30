@@ -48,6 +48,30 @@ class Player:
         new_position = board.move(current_position, steps)
         print(f"[DEBUG] Gracz {self.color} – Pionek {token_index}: nowa pozycja {new_position}.")
 
+        # 1. Sprawdzamy pole śmiertelne
+        if new_position in board.death_fields[self.color]:
+            self.tokens[token_index] = -1
+            return (f"Pionek {token_index} stanął na śmiertelnym polu {new_position} "
+                    f"i wraca do bazy!")
+
+        if new_position in board.safe_fields:
+            # Musimy policzyć, ile pionków stoi na tym polu
+            total_pawns = 0
+            for pl in board.players:
+                for opp_token in pl.tokens:
+                    if opp_token == new_position:
+                        total_pawns += 1
+
+            if total_pawns >= 4:
+                # Nie możemy wejść jako piąty pionek
+                print(f"[DEBUG] Pole {new_position} jest już zajęte przez 4 pionki!")
+                return f"Pionek {token_index} nie może wejść na to pole – jest już pełne (4 pionki)."
+
+            # Inaczej – możemy wejść, ale nie zbijamy pionków
+            # POMIJAMY zbijanie. Ustawiamy się normalnie:
+            self.tokens[token_index] = new_position
+            return f"Pionek {token_index} stanął na bezpiecznym polu {new_position}."
+
         # Sprawdź, czy na nowej pozycji są pionki innego gracza (lub wielu)
         for opponent in board.players:
             if opponent.color != self.color:  # Sprawdzanie tylko przeciwników

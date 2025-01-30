@@ -30,6 +30,15 @@ class Board:
         # Pola domków są strefami bezpiecznymi
         self.safe_zones = self.homes
 
+        self.death_fields = {
+            "red": [1, 38],
+            "blue": [11, 8],
+            "green": [21, 18],
+            "yellow": [31, 28]
+        }
+
+        self.safe_fields = [5, 15, 25, 35]
+
     def is_safe_field(self, position):
         """Sprawdź, czy pole jest bezpieczne (należy do domku)."""
         for home_fields in self.homes.values():

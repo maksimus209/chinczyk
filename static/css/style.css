@@ -6,6 +6,31 @@ body {
     padding: 0;
 }
 
+.fantasy-text {
+    font-family: Impact, fantasy; /* Dekoracyjna czcionka */
+    font-size: 200px; /* Wielkość tekstu */
+    font-weight: bold; /* Pogrubienie */
+    text-transform: uppercase; /* Duże litery */
+    letter-spacing: 1px; /* Odstęp między literami */
+    color: black; /* Kolor czcionki */
+    text-shadow: 2px 2px 0px gray; /* Cień tekstu */
+}
+
+
+.images {
+    display: flex; /* Ustawia obrazy w jednej linii */
+    gap: 10px; /* Odstęp między obrazkami */
+    justify-content: center; /* Wyśrodkowanie obrazków */
+}
+
+.images img {
+    width: 450px; /* Szerokość każdego obrazka */
+    height: 300px; /* Wysokość każdego obrazka */
+    object-fit: cover; /* Zapobiega rozciąganiu i zachowuje proporcje */
+    border-radius: 5px; /* Zaokrąglenie rogów (opcjonalne) */
+}
+
+
 h1 {
     color: #333;
     margin-top: 20px;
@@ -197,4 +222,71 @@ button:hover {
     grid-template-columns: repeat(2, 50px);
     grid-gap: 5px;
     justify-content: center;
+}
+
+/* Pola śmiertelne mają szare tło i litery w odpowiednim kolorze */
+
+/* Dla czerwonych pionków */
+.cell.death-red {
+  background-color: #aaa;    /* szary kolor */
+  position: relative;       /* pozwala na absolutne pozycjonowanie litery */
+}
+.cell.death-red::after {
+  content: "r";             /* tekst 'r' */
+  color: red;               /* kolor czerwony literki */
+  font-weight: bold;        /* pogrubienie */
+  position: absolute;       /* pozycjonowanie wewnątrz komórki */
+  top: 50%;                 /* wyśrodkuj pionowo */
+  left: 50%;                /* wyśrodkuj poziomo */
+  transform: translate(-50%, -50%); /* przesuwamy punkt odniesienia do środka */
+}
+
+/* Dla niebieskich pionków */
+.cell.death-blue {
+  background-color: #aaa;
+  position: relative;
+}
+.cell.death-blue::after {
+  content: "b";
+  color: blue;
+  font-weight: bold;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Dla zielonych pionków */
+.cell.death-green {
+  background-color: #aaa;
+  position: relative;
+}
+.cell.death-green::after {
+  content: "g";
+  color: green;
+  font-weight: bold;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Dla żółtych pionków */
+.cell.death-yellow {
+  background-color: #aaa;
+  position: relative;
+}
+.cell.death-yellow::after {
+  content: "y";
+  color: #ccc800; /* przykładowy odcień żółtego, możesz zmienić */
+  font-weight: bold;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Pola bezpieczne (safe-field) - różowe tło */
+.cell.safe-field {
+    background-color: pink;
 }

@@ -16,72 +16,81 @@
         <button id="btn-new-game">Powrót do menu</button>
     </div>
 
-
     <div id="baza">
         <!-- Wyświetlenie baz graczy -->
         {% for player in state['players'] %}
-  <div class="base {{ player['color'] }}">
-      {% for token in player['tokens'] %}
-          {% set token_index = loop.index0 %}
-
-          {% if token == -1 %}
-              <span
-                  class="token {{ player['color'] }}"
-                  data-player="{{ player['color'] }}"
-                  data-token-index="{{ token_index }}"
-              >
-                  {{ player['color'][0] }}
-              </span>
-          {% endif %}
-      {% endfor %}
-  </div>
-{% endfor %}
-
+            <div class="base {{ player['color'] }}">
+                {% for token in player['tokens'] %}
+                    {% set token_index = loop.index0 %}
+                    {% if token == -1 %}
+                        <span
+                            class="token {{ player['color'] }}"
+                            data-player="{{ player['color'] }}"
+                            data-token-index="{{ token_index }}"
+                        >
+                            {{ player['color'][0] }}
+                        </span>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endfor %}
     </div>
 
     <div id="board" class="board">
-        <!-- Generowanie planszy (40 pól) -->
-        {% for i in range(40) %}
-  <div class="cell" id="cell-{{ i }}">
-    {% for player in state['players'] %}
-        {% for token in player['tokens'] %}
-            {% set token_index = loop.index0 %}
+    {% for i in range(40) %}
+        <!-- Dotychczasowy warunek dla pól śmiertelnych -->
+        {% set extra_class = "" %}
+        {% if i in [1, 38] %}
+            {% set extra_class = extra_class + " death-red" %}
+        {% elif i in [8, 11] %}
+            {% set extra_class = extra_class + " death-blue" %}
+        {% elif i in [18, 21] %}
+            {% set extra_class = extra_class + " death-green" %}
+        {% elif i in [28, 31] %}
+            {% set extra_class = extra_class + " death-yellow" %}
+        {% endif %}
 
-            {% if token == i %}
-                <span
-                    class="token {{ player['color'] }}"
-                    data-player="{{ player['color'] }}"
-                    data-token-index="{{ token_index }}"
-                >
-                    {{ player['color'][0] }}
-                </span>
-            {% endif %}
-        {% endfor %}
-    {% endfor %}
-</div>
+        <!-- NOWY warunek na safe-field -->
+        {% if i in [5, 15, 25, 35] %}
+            {% set extra_class = extra_class + " safe-field" %}
+        {% endif %}
 
-{% endfor %}
-
-    </div>
-
-    <!-- Domki -->
-<div class="homes">
-    {% for player in state['players'] %}
-        <div class="home-section {{ player['color'] }}">
-            <div class="home {{ player['color'] }}"></div>
-            <div class="home {{ player['color'] }}"></div>
-            <div class="home {{ player['color'] }}"></div>
-            <div class="home {{ player['color'] }}"></div>
+        <div class="cell{{ extra_class }}" id="cell-{{ i }}">
+            {% for player in state['players'] %}
+                {% for token in player['tokens'] %}
+                    {% set token_index = loop.index0 %}
+                    {% if token == i %}
+                        <span
+                            class="token {{ player['color'] }}"
+                            data-player="{{ player['color'] }}"
+                            data-token-index="{{ token_index }}"
+                        >
+                            {{ player['color'][0] }}
+                        </span>
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
         </div>
     {% endfor %}
 </div>
 
-<button id="roll-dice-btn">Rzuć kostką</button>
-    <!-- Nad lub pod przyciskiem "Rzuć kostką" -->
-<button id="move-token-btn" disabled>Przesuń pionek</button>
 
-<p id="message"></p>
+    <!-- Domki -->
+    <div class="homes">
+        {% for player in state['players'] %}
+            <div class="home-section {{ player['color'] }}">
+                <div class="home {{ player['color'] }}"></div>
+                <div class="home {{ player['color'] }}"></div>
+                <div class="home {{ player['color'] }}"></div>
+                <div class="home {{ player['color'] }}"></div>
+            </div>
+        {% endfor %}
+    </div>
 
-<script src="{{ url_for('static', filename='js/game.js') }}"></script>
+    <button id="roll-dice-btn">Rzuć kostką</button>
+    <button id="move-token-btn" disabled>Przesuń pionek</button>
+    <p id="message"></p>
+
+    <script src="{{ url_for('static', filename='js/game.js') }}"></script>
 </body>
 </html>
